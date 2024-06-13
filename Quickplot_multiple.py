@@ -12,8 +12,11 @@ plt.style.use("/scratch/cfd/bergaud/CTPP/MPLSTYLE/cerfacs.mplstyle")
 figsize = (6, 4)
 linestyle_1 = '-'
 marker_1 = ''
-xlim_a = 0
-xlim_b = 0.025
+xlim_a = -0.0035
+xlim_b = 0.0035
+xlabel_default = 'Distance (m)'
+ylabel_default = 'T (K)'
+title_default = ''
 ######################################################################
 
 def load_csv(filename):
@@ -85,12 +88,19 @@ def plot_fields(x_data_list, y_data_list, filenames, initial_offset=None, xlabel
 
     for i, filename in enumerate(filenames):
         for j, y_data in enumerate(y_data_list[i]):
-            label = labels_list[i][j] if labels_list and len(labels_list[i]) > j else f"Field {j+1} ({filename})"
-            plt.plot(x_data_list[i] + initial_offset, y_data, label=label, linestyle=linestyle_1, marker=marker_1, color=colors[i])
+            # Apply initial_offset correctly
+            x_data_shifted = x_data_list[i] + initial_offset if initial_offset is not None else x_data_list[i]
+            
+            # Check dimensions
+            if len(x_data_shifted) != len(y_data):
+                raise ValueError(f"Dimension mismatch between x_data and y_data for {filename}, field {j+1}")
 
-    plt.xlabel(xlabel if xlabel else 'X Data', fontsize=12)  
-    plt.ylabel(ylabel if ylabel else 'Y Data', fontsize=12)  
-    plt.title(title if title else 'Comparison of Fields', fontsize=14)  
+            label = labels_list[i][j] if labels_list and len(labels_list[i]) > j else f"Field {j+1} ({filename})"
+            plt.plot(x_data_shifted, y_data, label=label, linestyle=linestyle_1, marker=marker_1, color=colors[i])
+
+    plt.xlabel(xlabel if xlabel else xlabel_default, fontsize=12)  
+    plt.ylabel(ylabel if ylabel else ylabel_default, fontsize=12)  
+    plt.title(title if title else title_default, fontsize=14)  
     plt.legend(fontsize=10)  
     plt.grid(True)  
     plt.tight_layout()  
