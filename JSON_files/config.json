@@ -1,0 +1,15 @@
+{
+    "figsize": [8, 6],
+    "linestyle_1": "-",
+    "marker_1": "o",
+    "xlim_a": -0.0035,
+    "xlim_b": 0.0035,
+    "xlabel_default": "Distance (m)",
+    "ylabel_default": "Temperature (K)",
+    "title_default": "Temperature Distribution",
+    "save_path": "./T_14mm",
+    "xlabel": "Distance (m)",
+    "ylabel": "Temperature (K)",
+    "title": "Temperature Distribution",
+  }
+  
