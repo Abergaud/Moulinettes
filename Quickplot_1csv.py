@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import pandas as pd
+import dask.dataframe as dd
+import time
 
 plt.style.use("/scratch/cfd/bergaud/CTPP/MPLSTYLE/cerfacs.mplstyle")
 
@@ -10,7 +12,18 @@ def load_csv(filename):
     """
     Load CSV file and prompt user to select headers for x and y data.
     """
-    data = pd.read_csv(filename)
+    # Load CSV file using dask dataframe
+    start_time=time.time()
+    data = dd.read_csv(filename)
+    end_time=time.time()
+    
+    loading_time = end_time - start_time
+    
+    print(f"Loading time : {loading_time:.2f}")
+    
+    # Convert to pandas dataframe for compatibility with current code
+    data = data.compute()
+    
     print("Available headers:")
     for idx, header in enumerate(data.columns):
         print(f"{idx + 1}. {header}")
@@ -42,7 +55,7 @@ def plot_fields(x_data, y_data, filename, offset=None, xlabel=None, ylabel=None,
     
     named_colors = mcolors.CSS4_COLORS
     colors = ['b', 'r', 'k', 'c']
-    colors += named_colors.keys()
+    colors += list(named_colors.keys())
     for i in range(len(y_data)):
         plt.plot(x_data, y_data[i], label=labels[i], linestyle='-', color=colors[i])  # Field 1
 
@@ -67,7 +80,7 @@ def main():
     save_path = input("Enter the path to save the plot with high resolution (or press Enter to skip): ").strip()
 
     # Plot the field
-    plt.figure(figsize=(4, 4))  # Set figure size
+    plt.figure(figsize=(6, 4))  # Set figure size
     plot_fields(x_data, y_data, filename, xlabel=xlabel, ylabel=ylabel, title=title, labels=labels, save_path=save_path)
 
     plt.xlabel(xlabel if xlabel else 'X Data', fontsize=12)  # X-axis label
@@ -81,6 +94,9 @@ def main():
     if save_path:
         plt.savefig(save_path + ".pdf", dpi=300)  # Save figure with high resolution (300 dpi)
         print(f"Plot saved to {save_path}" + ".pdf")
+
+    # Display the plot
+    plt.show()
 
 if __name__ == "__main__":
     main()
