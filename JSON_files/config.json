@@ -1,15 +1,27 @@
 {
-    "figsize": [8, 6],
-    "linestyle_1": "-",
-    "marker_1": "o",
+    "initial_offset": 0.0,
+    "figsize": [6, 4],
     "xlim_a": -0.0035,
     "xlim_b": 0.0035,
-    "xlabel_default": "Distance (m)",
-    "ylabel_default": "Temperature (K)",
-    "title_default": "Temperature Distribution",
-    "save_path": "./T_14mm",
     "xlabel": "Distance (m)",
     "ylabel": "Temperature (K)",
-    "title": "Temperature Distribution",
+    "title": "",
+    "save_path": ".T_12mm",
+    "files": {
+      "../BFER/12mm.csv": {
+        "x_idx": 11,
+        "y_indices": [35],
+        "labels": ["T_BFER_12mm"]
+      },
+      "../LU13/12mm.csv": {
+        "x_idx": 19,
+        "y_indices": [39],
+        "labels": ["T_LU13_12mm"]
+      },
+      "../VIRTUAL/12mm.csv": {
+        "x_idx": 12,
+        "y_indices": [34],
+        "labels": ["T_VIRT_12mm"]
+      }
+    }
   }
-  
