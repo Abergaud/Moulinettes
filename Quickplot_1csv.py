@@ -8,13 +8,31 @@ import time
 
 plt.style.use("/scratch/cfd/bergaud/CTPP/MPLSTYLE/cerfacs.mplstyle")
 
+def get_yes_no(prompt):
+    while True:
+        response = input(prompt).strip().lower()
+        if response in ['yes', 'no']:
+            return response
+        print("Invalid input. Please enter 'yes' or 'no'.")
+
+def get_valid_float(prompt, min_val=None, max_val=None):
+    while True:
+        try:
+            value = float(input(prompt).strip())
+            if (min_val is not None and value < min_val) or (max_val is not None and value > max_val):
+                print(f"Please enter a value between {min_val} and {max_val}.")
+                continue
+            return value
+        except ValueError:
+            print("Invalid input. Please enter a floating-point number.")
+
 def load_csv(filename):
     """
     Load CSV file and prompt user to select headers for x and y data.
     """
     # Load CSV file using dask dataframe
     start_time=time.time()
-    data = dd.read_csv(filename)
+    data = dd.read_csv(filename,assume_missing=True,dtype='float64')
     end_time=time.time()
     
     loading_time = end_time - start_time
@@ -53,7 +71,7 @@ def plot_fields(x_data, y_data, filename, offset=None, xlabel=None, ylabel=None,
     Plot fields of data and save the figure.
     """
     
-    named_colors = mcolors.CSS4_COLORS
+    named_colors = mcolors.XKCD_COLORS
     colors = ['b', 'r', 'k', 'c']
     colors += list(named_colors.keys())
     for i in range(len(y_data)):
@@ -94,6 +112,26 @@ def main():
     if save_path:
         plt.savefig(save_path + ".pdf", dpi=300)  # Save figure with high resolution (300 dpi)
         print(f"Plot saved to {save_path}" + ".pdf")
+        
+        while True:
+            adjust_xlim = get_yes_no("Do you want to adjust xlim_a and xlim_b? (yes/no): ")
+            if adjust_xlim == 'yes':
+                new_xlim_a = get_valid_float("Enter the new xlim_a value: ")
+                new_xlim_b = get_valid_float("Enter the new xlim_b value: ")
+                plt.figure(figsize=(6, 4))  # Set figure size
+                plot_fields(x_data, y_data, filename, xlabel=xlabel, ylabel=ylabel, title=title, labels=labels, save_path=save_path)
+                plt.xlabel(xlabel if xlabel else 'X Data', fontsize=12)  # X-axis label
+                plt.ylabel(ylabel if ylabel else 'Y Data', fontsize=12)  # Y-axis label
+                plt.title(title if title else 'Field Data', fontsize=14)  # Plot title
+                plt.legend(fontsize=10,loc=0)  # Legend
+                plt.grid(True)  # Enable grid
+                plt.tight_layout()  # Adjust layout
+                plt.xlim(new_xlim_a, new_xlim_b)
+                if save_path:
+                    plt.savefig(save_path + ".pdf", dpi=300)
+                    print(f"Plot saved to {save_path}.pdf")
+            elif adjust_xlim == 'no':
+                break
 
     # Display the plot
     plt.show()

@@ -11,8 +11,8 @@ figsize=(6,4)
 linestyle_1='-'
 linestyle_2='-'
 marker_1=''
-marker_2='.'
-xlim_a=0.0075; xlim_b=0.015
+marker_2=''
+xlim_a=0.0; xlim_b=0.05
 #ylim=(0,0)
 ######################################################################
 
@@ -76,9 +76,9 @@ def plot_fields(x_data1, y_data1, x_data2, y_data2, filename1, filename2, offset
     colors = ['b', 'r', 'k', 'grey']
     colors += named_colors.keys()
     for i in range(len(y_data1)):
-        plt.plot(x_data1 + offset, y_data1[i], label=labels[i], linestyle=linestyle_1, marker=marker_1, color=colors[i])  # Field 1
+        plt.plot(x_data1 + offset, y_data1[i], label=labels[i], linestyle=linestyle_1, marker=marker_1, color='k')#color=colors[i])  # Field 1
     for i in range(len(y_data2)):
-        plt.plot(x_data2, y_data2[i], label=labels[len(y_data1) + i] if labels else f'Field 2 ({filename2})', linestyle=linestyle_2, marker=marker_2, color=colors[i])  # Field 2
+        plt.plot(x_data2, y_data2[i], label=labels[len(y_data1) + i] if labels else f'Field 2 ({filename2})', linestyle=linestyle_2, marker=marker_2, color='b')#color=colors[i+1])  # Field 2
 
 def main():
     # Check if two arguments are provided: script.py <csv_file1> <csv_file2>
@@ -119,7 +119,7 @@ def main():
 
     # Save the plot
     if save_path:
-        #plt.xlim(xlim_a,xlim_b)
+        plt.xlim(xlim_a,xlim_b)
         plt.savefig(save_path + ".pdf", dpi=300)  # Save figure with high resolution (300 dpi)
         print(f"Plot saved to {save_path}" + ".pdf")
 
@@ -139,7 +139,7 @@ def main():
             plt.tight_layout()  # Adjust layout
             plt.show()
             if save_path:
-                #plt.xlim(xlim_a,xlim_b)
+                plt.xlim(xlim_a,xlim_b)
                 plt.savefig(save_path + ".pdf", dpi=300)  # Save figure with high resolution (300 dpi)
                 print(f"Plot saved to {save_path}" + ".pdf")
         else:
