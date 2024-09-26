@@ -1,0 +1,101 @@
+# Author: Quentin Douasbin, Cerfacs, Toulouse France
+# Date: 2021/01/07
+# Edited by Victor Xing, Cerfacs
+# Edited by Anthony BERGAUD
+
+mathtext.fontset : stix
+font.family: STIXGeneral
+
+## Colors to dark grey (chartre graphique)
+#text.color: 3a4853
+#xtick.color: 3a4853
+#ytick.color: 3a4853
+#axes.edgecolor: 3a4853
+#axes.labelcolor: 3a4853
+#grid.color: CCCCCC
+
+# Chartre grahique
+# color cycle
+axes.prop_cycle: cycler('color', ['095C9C', 'BC262B', 'E67A2B', '139F49', '2499C7', 'F3B229', '242350', '812C7C', '91C33F', '78848C', 'ACB7BC', 'DCDFE0', '000000'])
+
+lines.linewidth: 1.2
+lines.markersize: 3.5
+lines.markeredgewidth: 0.75
+lines.solid_capstyle: round
+
+axes.linewidth : 0.5
+axes.axisbelow : True # Draw axes and grid below the graphs elements
+
+legend.fancybox: False
+legend.shadow: False
+legend.edgecolor: black
+legend.frameon : False
+legend.framealpha    : 0.8
+legend.labelspacing  : 0.5
+legend.handletextpad : 0.25
+legend.columnspacing : 0.3
+
+figure.dpi : 300
+figure.autolayout : True
+
+axes.grid: True
+axes.grid.which:    major   # gridlines at {major, minor, both} ticks
+#grid.color: 313D46  # grid color
+grid.linestyle: -       # solid
+grid.linewidth: 0.3     # in points
+#grid.alpha:     1.0     # transparency, between 0.0 and 1.0
+
+image.cmap: viridis
+
+savefig.dpi: 400
+savefig.format: pdf
+
+#markers.fillstyle: none
+
+xtick.direction: in
+ytick.direction: in
+
+#xtick.top.visible : False
+#ytick.right.visible : False
+
+xtick.major.size: 3
+xtick.minor.size: 1.5
+xtick.major.width:  0.3
+xtick.minor.width:  0.3
+
+ytick.major.size: 3
+ytick.minor.size: 1.5
+ytick.major.width:  0.3
+ytick.minor.width:  0.3
+
+xtick.minor.visible: True
+ytick.minor.visible: True
+
+xtick.major.pad: 7
+ytick.major.pad: 7
+
+axes.labelpad : 10.
+#axes.labelweight: bold
+
+# Use scientific notation
+axes.formatter.limits: -3, 4        ## use scientific notation if log10
+                                      ## of the axis range is smaller than the
+                                     # ## first or larger than the second
+# axes.formatter.use_locale: False    ## When True, format tick labels
+                                      ## according to the user's locale.
+                                      ## For example, use ',' as a decimal
+                                      ## separator in the fr_FR locale.
+axes.formatter.use_mathtext: True   ## When True, use mathtext for scientific
+                                      ## notation.
+#axes.formatter.min_exponent: 0      ## minimum exponent to format in scientific notation
+axes.formatter.useoffset: True      ## If True, the tick label formatter
+# axes.formatter.useoffset: False      ## If True, the tick label formatter
+                                      ## will default to labeling ticks relative
+                                      ## to an offset when the data range is
+                                      ## small compared to the minimum absolute
+                                      ## value of the data.
+# axes.formatter.offset_threshold: 3  ## When useoffset is True, the offset
+                                      ## will be used when it can remove
+                                      ## at least this number of significant
+                                      ## digits from tick labels.
+                                      #
