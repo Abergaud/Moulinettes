@@ -1,0 +1,56 @@
+import pandas as pd
+import os
+
+def create_table_from_results_files(folder_path, table_file):
+    """
+    Create a table from the results files in the specified folder.
+    
+    Parameters:
+    folder_path (str): Path to the folder containing the results files.
+    
+    Returns:
+    pd.DataFrame: DataFrame containing the results from all files.
+    """
+    # Initialize an empty list to store data
+    data_from_files = []
+    
+    with open(folder_path + table_file, 'w') as f:
+        f.write('Equivalence Ratio, SL\n')
+
+        # Iterate through all files in the specified folder
+        for filename in sorted(os.listdir(folder_path)):
+            if filename.endswith('.csv'):
+                file_path = os.path.join(folder_path, filename)
+                
+                print(f"Reading file: {file_path}")
+                
+                equivalence_ratio = filename.split('_')[9]  # Extract equivalence ratio from filename
+                
+                print(f"Equivalence Ratio: {equivalence_ratio}")
+                
+                # Read the CSV file into a DataFrame
+                header = pd.read_csv(file_path, nrows=0)
+                
+                # print(f"header : {header.columns.tolist()}")
+                print(f"SL : {header.columns.tolist()[3]}")
+                
+                data_from_files.append({
+                    'equivalence_ratio': equivalence_ratio,
+                    'SL': header.columns.tolist()[3]  # Assuming SL is the fourth column
+                })
+
+        data_from_files = sorted(data_from_files, key=lambda x: float(x['equivalence_ratio']))
+        # Write the data to the text file
+        for data in data_from_files:
+            f.write(f"{data['equivalence_ratio']}, {data['SL']}\n")
+            
+        print(f"\n Results table saved to {folder_path + table_file}")
+                
+
+
+if __name__ == "__main__":
+    
+    # Specify the folder containing the results files
+    folder_path = '/Users/bergaud/Documents/PhD/COMPUTED_CANONICAL_FLAMES/CRECK_transport_mixture_averaged_premixed_flames_N-C12H26_T_650_P_1420000.0/'  # Change this to your folder path
+    # Create the table from the results files
+    results_table = create_table_from_results_files(folder_path, 'results_N-C12H26_CRECK_P2_large_phi.txt')
